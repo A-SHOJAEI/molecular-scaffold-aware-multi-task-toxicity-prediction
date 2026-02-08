@@ -1,0 +1,174 @@
+# Default configuration for molecular scaffold-aware multi-task toxicity prediction
+
+# Experiment metadata
+experiment:
+  name: "scaffold_aware_toxicity_prediction"
+  description: "Comprehensive study of scaffold-aware GNNs for multi-task toxicity prediction"
+  version: "1.0.0"
+  tags: ["toxicity", "scaffold-aware", "multi-task", "graph-neural-networks"]
+
+# Device and compute settings
+device: "auto"  # auto, cpu, cuda
+random_seed: 42
+
+# Data configuration
+data:
+  dataset: "tox21"  # tox21, toxcast, clintox
+  data_dir: "./data"
+  cache: true
+
+  # Preprocessing
+  remove_salts: true
+  canonical_smiles: true
+  remove_stereochemistry: false
+  explicit_h: false
+  use_chirality: true
+
+  # Scaffold settings
+  scaffold_split: true
+  scaffold_func: "murcko"  # murcko, brics
+  use_scaffold_transform: true
+  scaffold_type: "murcko"
+
+  # Data splits
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+
+  # Graph features
+  node_dim: 153  # Calculated from GraphFeaturizer with use_chirality=True
+  edge_dim: 16   # Calculated from GraphFeaturizer
+
+  # Data loading
+  num_workers: 4
+
+# Model configuration
+model:
+  name: "gcn"  # gcn, gat, sage
+
+  # Common architecture parameters
+  hidden_dim: 128
+  num_layers: 3
+  dropout: 0.2
+  scaffold_dim: 64
+
+  # Prediction head
+  prediction_hidden_dims: [128, 64]
+  prediction_dropout: 0.3
+  use_task_embedding: true
+
+  # Model-specific configurations
+  gcn:
+    aggregation: "add"
+
+  gat:
+    num_heads: 4
+    attention_dropout: 0.1
+
+  sage:
+    aggregation: "mean"  # mean, max, add
+
+# Training configuration
+training:
+  batch_size: 32
+  num_epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  optimizer: "adamw"  # adam, adamw
+
+  # Learning rate scheduling
+  scheduler: "plateau"  # plateau, step, null
+  scheduler_factor: 0.5
+  scheduler_patience: 10
+  scheduler_step_size: 20
+  scheduler_gamma: 0.9
+
+  # Early stopping
+  early_stopping: true
+  patience: 15
+  min_delta: 0.0001
+
+  # Logging
+  log_interval: 10
+  save_interval: 5
+
+  # Checkpointing
+  checkpoint_dir: "./checkpoints"
+  save_best_only: false
+
+# MLflow configuration
+mlflow:
+  experiment_name: "toxicity_prediction_experiments"
+  run_name: null  # Will be auto-generated if null
+  tracking_uri: null  # Uses default if null
+  artifact_location: null  # Uses default if null
+
+# Evaluation configuration
+evaluation:
+  metrics: ["auc_roc", "auc_pr", "accuracy", "f1", "precision", "recall"]
+  threshold: 0.5
+  bootstrap_n: 1000
+  confidence_level: 0.95
+
+  # Scaffold analysis
+  scaffold_analysis: true
+  save_predictions: true
+  plot_results: true
+
+  # Output settings
+  output_dir: "./results"
+  save_embeddings: false
+
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null  # Path to log file, null for console only
+
+# Target metrics (for reference and comparison)
+target_metrics:
+  tox21_auc_roc: 0.85
+  toxcast_auc_roc: 0.78
+  clintox_auc_roc: 0.92
+  scaffold_split_generalization_gap: 0.05
+
+# Hyperparameter search configuration (optional)
+hyperparameter_search:
+  enabled: false
+  method: "random"  # random, grid, bayesian
+  n_trials: 50
+
+  # Parameter ranges for search
+  search_space:
+    learning_rate:
+      type: "loguniform"
+      low: 1e-5
+      high: 1e-2
+
+    hidden_dim:
+      type: "choice"
+      values: [64, 128, 256]
+
+    num_layers:
+      type: "choice"
+      values: [2, 3, 4]
+
+    dropout:
+      type: "uniform"
+      low: 0.0
+      high: 0.5
+
+    batch_size:
+      type: "choice"
+      values: [16, 32, 64]
+
+# Reproducibility settings
+reproducibility:
+  deterministic: true
+  benchmark: false  # Set to true for performance, false for reproducibility
+
+# Resource monitoring
+monitoring:
+  track_memory: true
+  track_gpu_usage: true
+  profiling: false

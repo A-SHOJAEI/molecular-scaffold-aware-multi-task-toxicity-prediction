@@ -1,0 +1,74 @@
+# Core dependencies for molecular scaffold-aware multi-task toxicity prediction
+
+# Deep Learning Framework
+torch>=1.12.0
+torch-geometric>=2.3.0
+torch-cluster>=1.6.0
+torch-scatter>=2.1.0
+torch-sparse>=0.6.15
+
+# Alternative graph libraries
+dgl>=1.1.0
+networkx>=2.8
+
+# Chemistry and Molecular Processing
+rdkit>=2022.9.1
+
+# Machine Learning and Scientific Computing
+scikit-learn>=1.1.0
+numpy>=1.21.0
+scipy>=1.9.0
+pandas>=1.4.0
+
+# Experiment Tracking and Logging
+mlflow>=1.30.0
+tensorboard>=2.10.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+plotly>=5.10.0
+
+# Data Processing and I/O
+PyYAML>=6.0
+h5py>=3.7.0
+tables>=3.7.0
+
+# Testing Framework
+pytest>=7.1.0
+pytest-cov>=4.0.0
+pytest-mock>=3.8.0
+
+# Development Tools
+black>=22.6.0
+isort>=5.10.0
+flake8>=5.0.0
+mypy>=0.971
+
+# Progress Tracking
+tqdm>=4.64.0
+
+# Jupyter and Interactive Development
+jupyter>=1.0.0
+notebook>=6.4.0
+jupyterlab>=3.4.0
+ipywidgets>=8.0.0
+
+# Optional: Advanced optimization
+optuna>=3.0.0
+
+# Optional: Distributed training
+ray>=2.0.0
+
+# Optional: Additional visualization
+py3Dmol>=1.8.0
+
+# Optional: Enhanced molecular descriptors
+mordred>=1.2.0
+
+# Optional: Additional chemistry tools
+chembl-webresource-client>=0.10.0
+
+# System utilities
+psutil>=5.9.0
+packaging>=21.3

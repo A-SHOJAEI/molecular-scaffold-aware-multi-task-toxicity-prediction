@@ -1,0 +1,244 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "molecular-scaffold-aware-multi-task-toxicity-prediction"
+version = "1.0.0"
+description = "A comprehensive study comparing scaffold-aware graph neural network architectures for simultaneous prediction of multiple toxicity endpoints"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Molecular ML Research Team", email = "research@molecularml.org"}
+]
+maintainers = [
+    {name = "Molecular ML Research Team", email = "research@molecularml.org"}
+]
+keywords = [
+    "machine-learning",
+    "deep-learning",
+    "graph-neural-networks",
+    "molecular-property-prediction",
+    "toxicity-prediction",
+    "scaffold-aware",
+    "multi-task-learning",
+    "cheminformatics",
+    "drug-discovery"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+dependencies = [
+    "torch>=1.12.0",
+    "torch-geometric>=2.3.0",
+    "networkx>=2.8",
+    "rdkit>=2022.9.1",
+    "scikit-learn>=1.1.0",
+    "numpy>=1.21.0",
+    "scipy>=1.9.0",
+    "pandas>=1.4.0",
+    "mlflow>=1.30.0",
+    "matplotlib>=3.5.0",
+    "seaborn>=0.11.0",
+    "PyYAML>=6.0",
+    "tqdm>=4.64.0",
+    "psutil>=5.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.1.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.8.0",
+    "black>=22.6.0",
+    "isort>=5.10.0",
+    "flake8>=5.0.0",
+    "mypy>=0.971",
+]
+notebook = [
+    "jupyter>=1.0.0",
+    "notebook>=6.4.0",
+    "jupyterlab>=3.4.0",
+    "ipywidgets>=8.0.0",
+    "plotly>=5.10.0",
+]
+advanced = [
+    "optuna>=3.0.0",
+    "ray>=2.0.0",
+    "tensorboard>=2.10.0",
+    "py3Dmol>=1.8.0",
+    "mordred>=1.2.0",
+]
+all = [
+    "molecular-scaffold-aware-multi-task-toxicity-prediction[dev,notebook,advanced]"
+]
+
+[project.urls]
+Homepage = "https://github.com/molecularml/scaffold-aware-toxicity-prediction"
+Repository = "https://github.com/molecularml/scaffold-aware-toxicity-prediction"
+Documentation = "https://scaffold-aware-toxicity-prediction.readthedocs.io"
+"Bug Tracker" = "https://github.com/molecularml/scaffold-aware-toxicity-prediction/issues"
+
+[project.scripts]
+train-toxicity-model = "molecular_scaffold_aware_multi_task_toxicity_prediction.scripts.train:main"
+evaluate-toxicity-model = "molecular_scaffold_aware_multi_task_toxicity_prediction.scripts.evaluate:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"molecular_scaffold_aware_multi_task_toxicity_prediction" = [
+    "configs/*.yaml",
+    "data/samples/*.csv",
+]
+
+# Black formatting configuration
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["molecular_scaffold_aware_multi_task_toxicity_prediction"]
+known_third_party = [
+    "numpy", "pandas", "scipy", "sklearn", "matplotlib", "seaborn",
+    "torch", "torch_geometric", "dgl", "networkx", "rdkit",
+    "mlflow", "pytest", "yaml", "tqdm"
+]
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "rdkit.*",
+    "dgl.*",
+    "torch_geometric.*",
+    "torch_cluster.*",
+    "torch_scatter.*",
+    "torch_sparse.*",
+    "mlflow.*",
+    "seaborn.*",
+    "mordred.*",
+]
+ignore_missing_imports = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src/molecular_scaffold_aware_multi_task_toxicity_prediction",
+    "--cov-branch",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=70",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "gpu: marks tests that require GPU",
+    "download: marks tests that require internet connection",
+]
+filterwarnings = [
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/conftest.py",
+    "*/__init__.py",
+    "*/scripts/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# Flake8 configuration
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "E501", "W503"]
+per-file-ignores = [
+    "__init__.py:F401",
+    "tests/*.py:D",
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+    ".venv",
+    ".mypy_cache",
+    ".pytest_cache",
+]
