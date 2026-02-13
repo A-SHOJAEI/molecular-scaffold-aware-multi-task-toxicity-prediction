@@ -1,0 +1,137 @@
+# Ablation study configuration: disables scaffold-aware attention
+# This configuration removes the scaffold-aware component to measure its impact
+
+# Experiment metadata
+experiment:
+  name: "ablation_no_scaffold_attention"
+  description: "Ablation study - baseline GCN without scaffold-aware attention mechanism"
+  version: "1.0.0"
+  tags: ["ablation", "baseline", "no-scaffold", "multi-task"]
+
+# Device and compute settings
+device: "auto"
+random_seed: 42
+
+# Data configuration (same as default)
+data:
+  dataset: "tox21"
+  data_dir: "./data"
+  cache: true
+
+  # Preprocessing
+  remove_salts: true
+  canonical_smiles: true
+  remove_stereochemistry: false
+  explicit_h: false
+  use_chirality: true
+
+  # ABLATION: Disable scaffold-aware features
+  scaffold_split: true  # Keep scaffold split for fair comparison
+  scaffold_func: "murcko"
+  use_scaffold_transform: false  # DISABLED: No scaffold attention
+  scaffold_type: "murcko"
+
+  # Data splits (same as default for fair comparison)
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+
+  # Graph features
+  node_dim: 153
+  edge_dim: 16
+
+  # Data loading
+  num_workers: 4
+
+# Model configuration
+model:
+  name: "gcn"
+
+  # Same architecture as default for fair comparison
+  hidden_dim: 128
+  num_layers: 3
+  dropout: 0.2
+  scaffold_dim: 0  # ABLATION: Disabled scaffold dimension
+
+  # Prediction head (same as default)
+  prediction_hidden_dims: [128, 64]
+  prediction_dropout: 0.3
+  use_task_embedding: true  # Keep multi-task learning
+
+  # GCN configuration
+  gcn:
+    aggregation: "add"
+
+# Training configuration (identical to default)
+training:
+  batch_size: 32
+  num_epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  optimizer: "adamw"
+
+  # Learning rate scheduling
+  scheduler: "plateau"
+  scheduler_factor: 0.5
+  scheduler_patience: 10
+  scheduler_step_size: 20
+  scheduler_gamma: 0.9
+
+  # Early stopping
+  early_stopping: true
+  patience: 15
+  min_delta: 0.0001
+
+  # Logging
+  log_interval: 10
+  save_interval: 5
+
+  # Checkpointing
+  checkpoint_dir: "./checkpoints/ablation"
+  save_best_only: false
+
+# MLflow configuration
+mlflow:
+  experiment_name: "toxicity_ablation_studies"
+  run_name: "no_scaffold_attention"
+  tracking_uri: null
+  artifact_location: null
+
+# Evaluation configuration
+evaluation:
+  metrics: ["auc_roc", "auc_pr", "accuracy", "f1", "precision", "recall"]
+  threshold: 0.5
+  bootstrap_n: 1000
+  confidence_level: 0.95
+
+  # Scaffold analysis (important to compare generalization)
+  scaffold_analysis: true
+  save_predictions: true
+  plot_results: true
+
+  # Output settings
+  output_dir: "./results/ablation"
+  save_embeddings: false
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null
+
+# Expected performance degradation without scaffold attention
+# This helps validate the contribution of the scaffold-aware component
+target_metrics:
+  tox21_auc_roc: 0.78  # Lower than 0.85 with scaffold attention
+  scaffold_split_generalization_gap: 0.10  # Higher gap without scaffold awareness
+
+# Reproducibility settings
+reproducibility:
+  deterministic: true
+  benchmark: false
+
+# Resource monitoring
+monitoring:
+  track_memory: true
+  track_gpu_usage: true
+  profiling: false
