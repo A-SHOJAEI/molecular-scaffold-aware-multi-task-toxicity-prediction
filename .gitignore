@@ -141,6 +141,7 @@ checkpoints/
 /models/
 outputs/
 results/
+!results/results.json
 logs/
 runs/
 *.pt

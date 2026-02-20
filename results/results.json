@@ -1,0 +1,49 @@
+{
+  "model": "Molecular Scaffold-Aware Multi-Task Toxicity Prediction",
+  "test_metrics": {
+    "mean_auc_roc": 0.6293,
+    "median_auc_roc": 0.6118,
+    "std_auc_roc": 0.0609,
+    "mean_accuracy": 0.9262,
+    "std_accuracy": 0.0372,
+    "mean_auc_pr": 0.1317,
+    "mean_f1": 0.0452,
+    "per_task_auc_roc": {
+      "NR-AR": 0.7083,
+      "NR-AR-LBD": 0.7202,
+      "NR-AhR": 0.7136,
+      "NR-Aromatase": 0.5117,
+      "NR-ER": 0.5923,
+      "NR-ER-LBD": 0.6166,
+      "NR-PPAR-gamma": 0.6070,
+      "SR-ARE": 0.5974,
+      "SR-ATAD5": 0.6724,
+      "SR-HSE": 0.6403,
+      "SR-MMP": 0.5736,
+      "SR-p53": 0.5977
+    },
+    "per_task_accuracy": {
+      "NR-AR": 0.9552,
+      "NR-AR-LBD": 0.9629,
+      "NR-AhR": 0.8912,
+      "NR-Aromatase": 0.9411,
+      "NR-ER": 0.8976,
+      "NR-ER-LBD": 0.9616,
+      "NR-PPAR-gamma": 0.9590,
+      "SR-ARE": 0.8668,
+      "SR-ATAD5": 0.9641,
+      "SR-HSE": 0.9449,
+      "SR-MMP": 0.8617,
+      "SR-p53": 0.9078
+    }
+  },
+  "training": {
+    "total_epochs": 29,
+    "best_epoch": 14,
+    "final_train_loss": 0.1989,
+    "final_val_loss": 0.2563,
+    "best_val_auc_roc": 0.6340,
+    "initial_train_loss": 0.3792,
+    "learning_rate_schedule": "ReduceLROnPlateau (0.001 -> 0.0005 at epoch 24)"
+  }
+}

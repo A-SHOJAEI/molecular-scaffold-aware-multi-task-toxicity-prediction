@@ -25,29 +25,29 @@ A hierarchical graph neural network that learns molecular toxicity across 12 Tox
 
 | Rank | Task | AUC-ROC | Category |
 |------|------|---------|----------|
-| 1 | NR-AR-LBD | 0.789 | Nuclear Receptor |
-| 2 | NR-AhR | 0.729 | Nuclear Receptor |
-| 3 | NR-AR | 0.709 | Nuclear Receptor |
-| 4 | NR-ER-LBD | 0.695 | Nuclear Receptor |
-| 5 | NR-Aromatase | 0.608 | Nuclear Receptor |
-| 6 | SR-ATAD5 | 0.594 | Stress Response |
-| 7 | SR-HSE | 0.594 | Stress Response |
-| 8 | NR-PPAR-gamma | 0.582 | Nuclear Receptor |
-| 9 | SR-ARE | 0.564 | Stress Response |
-| 10 | NR-ER | 0.555 | Nuclear Receptor |
-| 11 | SR-p53 | 0.535 | Stress Response |
-| 12 | SR-MMP | 0.526 | Stress Response |
+| 1 | NR-AR-LBD | 0.720 | Nuclear Receptor |
+| 2 | NR-AhR | 0.714 | Nuclear Receptor |
+| 3 | NR-AR | 0.708 | Nuclear Receptor |
+| 4 | SR-ATAD5 | 0.672 | Stress Response |
+| 5 | SR-HSE | 0.640 | Stress Response |
+| 6 | NR-ER-LBD | 0.617 | Nuclear Receptor |
+| 7 | NR-PPAR-gamma | 0.607 | Nuclear Receptor |
+| 8 | SR-ARE | 0.597 | Stress Response |
+| 9 | SR-p53 | 0.598 | Stress Response |
+| 10 | NR-ER | 0.592 | Nuclear Receptor |
+| 11 | SR-MMP | 0.574 | Stress Response |
+| 12 | NR-Aromatase | 0.512 | Nuclear Receptor |
 
 ### Aggregate Metrics
 
 | Metric | Value |
 |--------|-------|
-| Mean AUC-ROC | 0.6233 |
-| Best Task AUC-ROC | 0.7894 (NR-AR-LBD) |
-| Mean Accuracy | 92.47% |
+| Mean AUC-ROC | 0.6293 |
+| Best Task AUC-ROC | 0.7202 (NR-AR-LBD) |
+| Mean Accuracy | 92.62% |
 | Final Training Loss | 0.1989 |
 | Final Validation Loss | 0.2563 |
-| Best Validation AUC-ROC | 0.6341 (Epoch 14) |
+| Best Validation AUC-ROC | 0.6340 (Epoch 14) |
 
 ### Training Dynamics
 
